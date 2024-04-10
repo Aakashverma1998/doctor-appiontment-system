@@ -1,18 +1,24 @@
 import React from 'react'
 import { Form, Input, message } from "antd"
 import "../styles/SignupStyle.css"
+import {useDispatch} from "react-redux"
 import axios from "axios"
 import {Link, useNavigate} from "react-router-dom"
+import { hideLoading, showLoading } from '../redux/features/alertSlice'
 function Signup() {
     const navigate = useNavigate()
+    const dispatch = useDispatch()
     const onfinishHandler = async(values) =>{
         try{
+            dispatch(showLoading())
             const res = await axios.post("http://localhost:8080/api/v1/user/register",values)
+            dispatch(hideLoading())
             if(res.data.success){
                 message.success("User Rgeister Successfully")
                 navigate("/login")
 
             }else{
+                dispatch(hideLoading())
                 message.error(res.data.message)
             }
 
