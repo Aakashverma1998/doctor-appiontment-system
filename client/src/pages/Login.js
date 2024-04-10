@@ -10,7 +10,8 @@ function Login() {
       const res = await axios.post("http://localhost:8080/api/v1/user/login",values)
       if(res.data.success){
         message.success("User Login Successfully.")
-        navigate("/dashboard")
+        localStorage.setItem("token", res.data.token)
+        navigate("/")
       }else{
         message.error(res.data.message)
       }

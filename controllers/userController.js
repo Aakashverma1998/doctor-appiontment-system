@@ -44,7 +44,7 @@ const login = async (req, res) => {
                 }, process.env.secret_key, {
                     expiresIn: "1h"
                 })
-                // customer.tokens.push({ token })
+                user.tokens.push({ token })
                 await user.save()
                 res.status(201).json({
                     success : true,
@@ -54,10 +54,10 @@ const login = async (req, res) => {
 
                 });
             } else {
-                return res.json({success : false,message:"User Email or Password Wrong!"});
+                return res.json({success : false,message:"Invalid Email or Password !"});
             };
         } else {
-            return res.json({success : false,message:"User Email or Password Wrong!"})  ;
+            return res.json({success : false,message:"Invalid Email or Password !"})  ;
         };
     } catch (err) {
         console.log(err);
@@ -66,7 +66,21 @@ const login = async (req, res) => {
     };
 }
 
+const getUser = async(req,res)=>{
+    try{
+        const userData = await User.findOne({id:req.body.userId})
+        if(!userData){
+            return res.status(200).send({message:'User not Found', success:false})
+        }
+        res.status(200).send({success:true, data:{email:userData.email}})
+    }catch(err){
+        console.log(err);
+        return res.json(helper.showInternalServerErrorResponse("Internal server error"));
+    }
+}
+
 module.exports = {
     userRegister,
-    login
+    login,
+    getUser
 }
