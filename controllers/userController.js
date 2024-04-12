@@ -46,6 +46,7 @@ const login = async (req, res) => {
                 })
                 user.tokens.push({ token })
                 await user.save()
+                console.log("user..................",user);
                 res.status(201).json({
                     success : true,
                     message: "Login Success",
@@ -72,7 +73,7 @@ const getUser = async(req,res)=>{
         if(!userData){
             return res.status(200).send({message:'User not Found', success:false})
         }
-        res.status(200).send({success:true, data:{email:userData.email}})
+        res.status(200).send({success:true, data:{email:userData.email, name:userData.name}})
     }catch(err){
         console.log(err);
         return res.json(helper.showInternalServerErrorResponse("Internal server error"));

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {Navigate} from "react-router-dom"
 import {useSelector, useDispatch} from "react-redux"
 import axios from "axios"
@@ -20,13 +20,21 @@ export default function ProtectedRoute({children}) {
     )
     dispatch(hideLoading)
     if(res.data.success){
-      dispatch(setUser)
+      dispatch(setUser(res.data.data))
+    }else{
+      <Navigate to="/login" />
     }
     }catch(err){
       console.log(err);
       dispatch(hideLoading)
     }
   }
+  useEffect(()=>{
+    if(!user){
+      getUser()
+    }
+
+  },[user])
   if(localStorage.getItem("token")){
     return children
   }else{
