@@ -1,6 +1,9 @@
 import React from 'react'
 import "../styles/LayoutStyle.css"
+import {Link, useLocation} from "react-router-dom"
+import { sidebarMenu } from '../Data/data'
 const Layout = ({children}) => {
+    const location = useLocation()
   return (
    <>
    <div className='main'>
@@ -10,7 +13,17 @@ const Layout = ({children}) => {
                     <h6>Doc-App</h6>
                     <hr/>
                 </div>
-                <div className='menu'>Menu</div>
+                <div className='menu'>{sidebarMenu.map(menue =>{
+                    const isActive = location.pathname === menue.path
+                    return (
+                        <>
+                        <div className={`menu-item ${isActive && 'active'}`}>
+                            <i className={menue.icon}></i>
+                            <Link to={menue.path}>{menue.name}</Link>
+                        </div>
+                        </>
+                    )
+                })}</div>
             </div>
             <div className='content'>
                 <div className='header'>Header</div>
