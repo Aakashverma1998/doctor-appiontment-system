@@ -13,7 +13,7 @@ const auth = async(req,res,next)=>{
         req.user = user
         next()
     }catch(err){
-        return res.status(401).json({"error":"Please authenticate"})
+        return res.status(401).json({"success":false,"error":"Please authenticate"})
 
     }
    

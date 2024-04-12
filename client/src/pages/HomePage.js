@@ -1,7 +1,9 @@
 import React,{useEffect} from 'react'
 import axios from "axios"
 import Layout from '../components/Layout'
+import {useNavigate} from "react-router-dom"
 const HomePage = () => {
+  const navigate = useNavigate()
   const getUser = async() =>{
     try{
       await axios.post("http://localhost:8080/api/v1/user/getUser",{},{
@@ -11,6 +13,8 @@ const HomePage = () => {
       })
     }catch(error){
       console.log(error);
+      localStorage.removeItem("token")
+      navigate("/login")
     }
   }
   //login user data
