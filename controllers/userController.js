@@ -46,7 +46,6 @@ const login = async (req, res) => {
                 })
                 user.tokens.push({ token })
                 await user.save()
-                console.log("user..................",user);
                 res.status(201).json({
                     success : true,
                     message: "Login Success",
@@ -69,7 +68,7 @@ const login = async (req, res) => {
 
 const getUser = async(req,res)=>{
     try{
-        const userData = await User.findOne({id:req.body.userId})
+        const userData = await User.findOne({_id:req.user._id})
         if(!userData){
             return res.status(200).send({message:'User not Found', success:false})
         }

@@ -21,6 +21,7 @@ export default function ProtectedRoute({children}) {
     dispatch(hideLoading)
     if(res.data.success){
       dispatch(setUser(res.data.data))
+      console.log("res.........getUser.............",res)
     }else{
       <Navigate to="/login" />
     }
