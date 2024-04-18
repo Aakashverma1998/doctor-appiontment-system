@@ -28,7 +28,13 @@ const Layout = ({children}) => {
                 })}</div>
             </div>
             <div className='content'>
-                <div className='header'>{user?.name}</div>
+                <div className='header'>
+                <div className='header-content'>
+                <i class="fa-solid fa-bell"></i>
+                <Link to="/profile">{user?.name}</Link>
+                </div>
+                </div>
+              
                 <div className='body'>{children}</div>
             </div>
         </div>
