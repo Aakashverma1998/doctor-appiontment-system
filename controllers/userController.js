@@ -69,10 +69,11 @@ const login = async (req, res) => {
 const getUser = async(req,res)=>{
     try{
         const userData = await User.findOne({_id:req.user._id})
+        delete userData.password
         if(!userData){
             return res.status(200).send({message:'User not Found', success:false})
         }
-        res.status(200).send({success:true, data:{email:userData.email, name:userData.name}})
+        return res.status(200).send({success:true, data:userData})
     }catch(err){
         console.log(err);
         return res.json(helper.showInternalServerErrorResponse("Internal server error"));

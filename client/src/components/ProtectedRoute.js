@@ -8,9 +8,10 @@ export default function ProtectedRoute({children}) {
   const dispatch = useDispatch()
   const {user} = useSelector(state=>state.user) 
   //getUser
+  // eslint-disable-next-line
   const getUser = async()=>{
     try{
-      dispatch(showLoading)
+      dispatch(showLoading())
       const res = await axios.post("http://localhost:8080/api/v1/user/getUser",
       {token:localStorage.getItem("token")},
       {headers:{
@@ -18,16 +19,16 @@ export default function ProtectedRoute({children}) {
       }}
 
     )
-    dispatch(hideLoading)
+    dispatch(hideLoading())
     if(res.data.success){
       dispatch(setUser(res.data.data))
-      console.log("res.........getUser.............",res)
+    
     }else{
       <Navigate to="/login" />
     }
     }catch(err){
       console.log(err);
-      dispatch(hideLoading)
+      dispatch(hideLoading())
     }
   }
   useEffect(()=>{
@@ -35,7 +36,7 @@ export default function ProtectedRoute({children}) {
       getUser()
     }
 
-  },[user])
+  },[user,getUser])
   if(localStorage.getItem("token")){
     return children
   }else{

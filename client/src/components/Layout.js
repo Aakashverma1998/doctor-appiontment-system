@@ -1,11 +1,20 @@
 import React from 'react'
 import "../styles/LayoutStyle.css"
-import {Link, useLocation} from "react-router-dom"
-import { sidebarMenu } from '../Data/data'
+import {Link, useLocation, useNavigate} from "react-router-dom"
+import { adminMenu, userMenu } from '../Data/data'
+import {message} from "antd"
 import {useSelector} from "react-redux"
 const Layout = ({children}) => {
     const {user} = useSelector(state => state.user)
+    const navigate = useNavigate()
     const location = useLocation()
+    const handleLogout = ()=>{
+        localStorage.clear()
+        message.success("Logout Successfully")
+        navigate("/login")
+        
+    }
+    const SidebarMenu = user?.isAdmin ? adminMenu : userMenu
   return (
    <>
    <div className='main'>
@@ -15,7 +24,7 @@ const Layout = ({children}) => {
                     <h6>Doc-App</h6>
                     <hr/>
                 </div>
-                <div className='menu'>{sidebarMenu.map(menue =>{
+                <div className='menu'>{SidebarMenu.map(menue =>{
                     const isActive = location.pathname === menue.path
                     return (
                         <>
@@ -25,7 +34,12 @@ const Layout = ({children}) => {
                         </div>
                         </>
                     )
-                })}</div>
+                })}
+                 <div className={`menu-item`} onClick={handleLogout}>
+                            <i className="fa-solid fa-right-from-bracket"></i>
+                            <Link to="/login">Logout</Link>
+                        </div>
+                </div>
             </div>
             <div className='content'>
                 <div className='header'>
