@@ -60,7 +60,25 @@ const notification = async (req, res) => {
     );
   }
 };
+const deleteNotification = async (req,res) => {
+  try {
+    const user = await User.findOne({ _id: req.user._id });
+    user.notification = [];
+    user.seennotification = [];
+    const updateUser = await user.save();
+    res.status(200).send({
+      success: true,
+      data: updateUser,
+      message: "Notification Delete Successfully",
+    });
+  } catch (err) {
+    return res.json(
+      helper.showInternalServerErrorResponse("Internal server error")
+    );
+  }
+};
 module.exports = {
   doctorRegister,
   notification,
+  deleteNotification,
 };
