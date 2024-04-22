@@ -1,13 +1,38 @@
 import React from "react";
+import axios from "axios";
 import Layout from "../components/Layout";
-import { Col, Form, Input, Row, TimePicker } from "antd";
+import { useSelector, useDispatch } from "react-redux";
+import { hideLoading, showLoading } from "../redux/features/alertSlice";
+import { Col, Form, Input, Row, TimePicker, message } from "antd";
+import { useNavigate } from "react-router-dom";
 
 function ApplyDoctor() {
+  const { user } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const handleFinish = async (values) => {
     try {
-      console.log("value..............", values);
+      dispatch(showLoading());
+      const res = await axios.post(
+        "http://localhost:8080/api/v1/doctor/doctorRegister",
+        { ...values, userId: user._id },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      dispatch(hideLoading());
+      if (res.data.success) {
+        message.success(res.data.msg);
+        navigate("/");
+      } else {
+        message.error(res.data.message);
+      }
     } catch (err) {
       console.log(err);
+      dispatch(hideLoading());
+      message.error("Something went worng!");
     }
   };
   return (
@@ -121,7 +146,7 @@ function ApplyDoctor() {
           </Col>
         </Row>
         <div className="d-flex justify-content-center">
-          <button className="btn btn-primary" type="submit" >
+          <button className="btn btn-primary" type="submit">
             Submit
           </button>
         </div>

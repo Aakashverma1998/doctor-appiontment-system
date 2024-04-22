@@ -1,35 +1,42 @@
-const mongoose = require("mongoose")
-const doctorSchema = new mongoose.Schema({
-    userId :{
-        type: String
+const mongoose = require("mongoose");
+const doctorSchema = new mongoose.Schema(
+  {
+    userId: {
+      type: String,
     },
-    firstName:{type:String},
-    lastName:{type:String},
-    email:{type:String},
-    password:{type:String},
-    phone:{
-        type: String,
-        default: false
+    firstName: { type: String },
+    lastName: { type: String },
+    email: { type: String },
+    password: { type: String },
+    phone: {
+      type: String,
+      default: false,
     },
-    website:{
-        type:String
+    website: {
+      type: String,
     },
     address: {
-        type: String
+      type: String,
     },
-    specialization:{
-        type:String
+    specialization: {
+      type: String,
     },
-    experience:{
-        trype: String
+    experience: {
+      trype: String,
     },
-    feesPerCunsaltation:{
-        type: Number
+    status: {
+      type: String,
+      default: false,
     },
-    timings:{
-        type : Object
-    }
-},{
-    timestamps: true
-})
-module.exports = mongoose.model("Doctor",doctorSchema)
+    feesPerCunsaltation: {
+      type: Number,
+    },
+    timings: {
+      type: Object,
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
+module.exports = mongoose.model("Doctor", doctorSchema);

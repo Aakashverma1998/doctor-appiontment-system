@@ -7,6 +7,7 @@ import Spinner from "./components/Spinner";
 import ProtectedRoute from "./components/ProtectedRoute";
 import PublicRoute from "./components/PublicRoute";
 import ApplyDoctor from "./pages/ApplyDoctor";
+import Notofication from "./pages/Notofication";
 
 function App() {
   const {loading} = useSelector(state => state.alert)
@@ -17,6 +18,7 @@ function App() {
        <Routes>
        <Route path="/" element = {<ProtectedRoute> <HomePage /></ProtectedRoute>}/>
        <Route path="/apply-doctor" element = {<ProtectedRoute> <ApplyDoctor /></ProtectedRoute>}/>
+       <Route path="/notification" element = {<ProtectedRoute> <Notofication /></ProtectedRoute>}/>
        <Route path="/appointments" element = {<ProtectedRoute> <HomePage /></ProtectedRoute>}/>
        <Route path="/signup" element = {<PublicRoute><Signup/></PublicRoute>}/>
        <Route path="/login" element = {<PublicRoute><Login/></PublicRoute>}/>
