@@ -26,7 +26,7 @@ const doctorSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      default: false,
+      default: "pending",
     },
     feesPerCunsaltation: {
       type: Number,

@@ -35,6 +35,7 @@ function Notofication() {
   };
   const handleDeleteAllRead = async () => {
     try {
+      dispatch(showLoading());
       const res = await axios.post(
         "http://localhost:8080/api/v1/doctor/delete-all-notification",
         { _id: user._id },
@@ -45,17 +46,19 @@ function Notofication() {
         }
       );
       window.location.reload();
+      dispatch(hideLoading());
       if (res.data.success) {
         message.success(res.data.message);
       }
     } catch (err) {
       console.log(err);
+      dispatch(hideLoading());
       message.error("something went worng");
     }
   };
   return (
     <Layout>
-      <h4 className="p-2 text-center">Notofication</h4>
+      <h4 className="p-2 text-center">Notification</h4>
       <Tabs>
         <Tabs.TabPane tab="unRead" key={0}>
           <div className="d-flex justify-content-end">
