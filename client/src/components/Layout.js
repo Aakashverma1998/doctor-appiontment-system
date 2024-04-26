@@ -13,7 +13,28 @@ const Layout = ({ children }) => {
     message.success("Logout Successfully");
     navigate("/login");
   };
-  const SidebarMenu = user?.isAdmin ? adminMenu : userMenu;
+  const doctorMenu = [
+    {
+      name: "Home",
+      path: "/",
+      icon: "fa-solid fa-house",
+    },
+    {
+      name: "Appointments",
+      path: "/appointments",
+      icon: "fa-solid fa-list",
+    },
+    {
+      name: "Profile",
+      path: `/doctor/profile/${user?._id}`,
+      icon: "fa-solid fa-user",
+    },
+  ];
+  const SidebarMenu = user?.isAdmin
+    ? adminMenu
+    : user?.isDoctor
+    ? doctorMenu
+    : userMenu;
   return (
     <>
       <div className="main">
@@ -43,8 +64,13 @@ const Layout = ({ children }) => {
           </div>
           <div className="content">
             <div className="header">
-              <div className="header-content"  style={{cursor:"pointer"}}>
-                <Badge count={user?.notification.length} onClick={()=>{navigate("/notification")}}>
+              <div className="header-content" style={{ cursor: "pointer" }}>
+                <Badge
+                  count={user?.notification.length}
+                  onClick={() => {
+                    navigate("/notification");
+                  }}
+                >
                   <i class="fa-solid fa-bell"></i>
                 </Badge>
                 <Link to="/profile">{user?.name}</Link>

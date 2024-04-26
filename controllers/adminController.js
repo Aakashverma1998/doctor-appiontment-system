@@ -46,11 +46,7 @@ const getAllDoctors = async (req, res) => {
 const changeAccountStatus = async (req, res) => {
   try {
     const { doctorId, status } = req.body;
-    const doctor = await Doctor.findByIdAndUpdate(
-      doctorId,
-      { status },
-      { new: true }
-    );
+    const doctor = await Doctor.findByIdAndUpdate(doctorId, { status });
     const user = await User.findOne({ _id: doctor.userId });
     const notification = user.notification;
     notification.push({
@@ -58,11 +54,9 @@ const changeAccountStatus = async (req, res) => {
       message: `Your Doctor Account Request has ${status} `,
       onclickPath: "/notification",
     });
-    if (doctor.status === "approved") {
-      user.isDoctor = true;
-      await user.save();
-    }
-    return res.status(200).send({
+    user.isDoctor = status === "approved" ? true : false;
+    await user.save();
+    res.status(200).send({
       success: true,
       message: "Account status updated",
       data: doctor,
