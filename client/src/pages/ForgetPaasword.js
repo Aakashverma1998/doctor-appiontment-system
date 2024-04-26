@@ -1,28 +1,24 @@
 import React from "react";
 import { Form, Input, message } from "antd";
 import "../styles/SignupStyle.css";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import axios from "axios";
 import { hideLoading, showLoading } from "../redux/features/alertSlice";
 
 function ForgetPaasword() {
-  const navigate = useNavigate();
+  //   const navigate = useNavigate();
   const dispatch = useDispatch();
   const onfinishHandler = async (values) => {
     try {
       dispatch(showLoading());
-      const res = await axios.post(
-        "http://localhost:8080/api/v1/user/login",
-        values
-      );
-      window.location.reload();
+      const res = await axios.post("/api/v1/user/forgetPassword", values);
       dispatch(hideLoading());
       if (res.data.success) {
-        message.success("User Login Successfully.");
+        message.success("ResetPassword Link Sent Your Mail.");
       } else {
         dispatch(hideLoading());
-        message.error(res.data.message);
+        message.error("User not Found");
       }
     } catch (err) {
       console.log(err);

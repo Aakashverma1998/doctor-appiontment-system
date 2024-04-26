@@ -2,6 +2,7 @@ const User = require("../models/user");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const helper = require("../utils/helper");
+const { userForgetPassword } = require("../middleware/mail");
 const userRegister = async (req, res) => {
   try {
     let emailMatch = await User.findOne({
@@ -99,8 +100,54 @@ const getUser = async (req, res) => {
   }
 };
 
+const forgetPassword = async (req, res) => {
+  try {
+    const userData = await User.findOne({ email: req.body.email });
+    if (!userData) {
+      return res
+        .status(200)
+        .send({ message: "User not Found", success: false });
+    }
+    await userForgetPassword(userData);
+    return res
+      .status(200)
+      .send({ success: true, message: "ResetPassword Link Sent Your Mail." });
+  } catch (err) {
+    console.log(err);
+    return res.json(
+      helper.showInternalServerErrorResponse("Internal server error")
+    );
+  }
+};
+
+const resetPassword = async (req, res) => {
+  try {
+    if (req.body.password != req.body.confirmpassword) {
+      return res
+        .status(200)
+        .send({ message: "User password and confirmpassword", success: false });
+    }
+    const hashedPassword = await bcrypt.hash(req.body.password, 10);
+    const user = await User.findByIdAndUpdate(req.params.id, {
+      password: hashedPassword,
+    });
+    if (!user) {
+      return res
+        .status(200)
+        .send({ message: "User not Found", success: false });
+    }
+    return res.status(200).send({ success: true, data: user });
+  } catch (err) {
+    return res.json(
+      helper.showInternalServerErrorResponse("Internal server error")
+    );
+  }
+};
+
 module.exports = {
   userRegister,
   login,
   getUser,
+  forgetPassword,
+  resetPassword,
 };

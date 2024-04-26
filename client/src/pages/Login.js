@@ -12,7 +12,7 @@ function Login() {
     try {
       dispatch(showLoading());
       const res = await axios.post(
-        "http://localhost:8080/api/v1/user/login",
+        "/api/v1/user/login",
         values
       );
       window.location.reload();
@@ -55,7 +55,7 @@ function Login() {
           >
             <Input type="password" required />
           </Form.Item>
-          <Link to={"/user/forgetPassword"} className="ml-10">
+          <Link to={"/api/v1/user/forgetPassword"} className="ml-10">
             Forgot Password?
           </Link>
           <button

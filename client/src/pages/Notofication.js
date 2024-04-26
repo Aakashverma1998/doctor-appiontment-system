@@ -12,7 +12,7 @@ function Notofication() {
     try {
       dispatch(showLoading());
       const res = await axios.post(
-        "http://localhost:8080/api/v1/doctor/get-all-notification",
+        "/api/v1/doctor/get-all-notification",
         { _id: user._id },
         {
           headers: {
@@ -37,7 +37,7 @@ function Notofication() {
     try {
       dispatch(showLoading());
       const res = await axios.post(
-        "http://localhost:8080/api/v1/doctor/delete-all-notification",
+        "/api/v1/doctor/delete-all-notification",
         { _id: user._id },
         {
           headers: {

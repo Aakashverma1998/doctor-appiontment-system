@@ -14,7 +14,7 @@ function ApplyDoctor() {
     try {
       dispatch(showLoading());
       const res = await axios.post(
-        "http://localhost:8080/api/v1/doctor/doctorRegister",
+        "/api/v1/doctor/doctorRegister",
         { ...values, userId: user._id },
         {
           headers: {
