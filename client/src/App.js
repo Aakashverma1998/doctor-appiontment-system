@@ -11,6 +11,7 @@ import Notofication from "./pages/Notofication";
 import Users from "./pages/admin/Users";
 import Doctor from "./pages/admin/Doctor";
 import Profile from "./pages/doctor/Profile";
+import ForgetPaasword from "./pages/ForgetPaasword";
 
 function App() {
   const {loading} = useSelector(state => state.alert)
@@ -24,6 +25,7 @@ function App() {
        <Route path="/notification" element = {<ProtectedRoute> <Notofication /></ProtectedRoute>}/>
        <Route path="/users" element = {<ProtectedRoute> <Users /></ProtectedRoute>}/>
        <Route path="/doctors" element = {<ProtectedRoute> <Doctor /></ProtectedRoute>}/>
+       <Route path="/user/forgetPassword" element = {<PublicRoute> <ForgetPaasword /></PublicRoute>}/>
        <Route path="/doctor/profile/:id" element = {<ProtectedRoute> <Profile /></ProtectedRoute>}/>
        <Route path="/appointments" element = {<ProtectedRoute> <HomePage /></ProtectedRoute>}/>
        <Route path="/signup" element = {<PublicRoute><Signup/></PublicRoute>}/>

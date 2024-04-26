@@ -1,11 +1,12 @@
 import React from "react";
 import { Form, Input, message } from "antd";
 import "../styles/SignupStyle.css";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import axios from "axios";
 import { hideLoading, showLoading } from "../redux/features/alertSlice";
-function Login() {
+
+function ForgetPaasword() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const onfinishHandler = async (values) => {
@@ -19,8 +20,6 @@ function Login() {
       dispatch(hideLoading());
       if (res.data.success) {
         message.success("User Login Successfully.");
-        localStorage.setItem("token", res.data.token);
-        navigate("/");
       } else {
         dispatch(hideLoading());
         message.error(res.data.message);
@@ -36,48 +35,28 @@ function Login() {
         <Form
           layout="vertical"
           onFinish={onfinishHandler}
-          className="register-form"
+          className="forgetPassword-form"
         >
-          <h1 className="title">Login</h1>
+          <h1 className="title">ForgetPassword</h1>
           <Form.Item
             label="Email"
             name="email"
-            // required
-            // rules={[{ required: true }]}
+            required
+            rules={[{ required: true }]}
           >
             <Input type="email" required />
           </Form.Item>
-          <Form.Item
-            label="Password"
-            name="password"
-            // required
-            // rules={[{ required: true }]}
-          >
-            <Input type="password" required />
-          </Form.Item>
-          <Link to={"/user/forgetPassword"} className="ml-10">
-            Forgot Password?
-          </Link>
           <button
             className="btn btn-primary"
-            style={{ width: "280px" }}
+            style={{ width: "482px" }}
             type="submit"
           >
-            Login
+            ResetPassword
           </button>
-          <div>
-            <Link
-              to={"/signup"}
-              className="p-4"
-              style={{ lineHeight: "3.4em" }}
-            >
-              Not registered? Create an account
-            </Link>
-          </div>
         </Form>
       </div>
     </>
   );
 }
 
-export default Login;
+export default ForgetPaasword;

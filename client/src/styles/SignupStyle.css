@@ -4,7 +4,7 @@
     justify-content: center;
     height: 100vh;
     border: 1px;
-    background-color: rgb(137, 189, 189);
+    background-color: rgb(240, 169, 189);
 } 
 .register-form{
     border: 1px solid gray;
@@ -16,4 +16,13 @@
 
 .title{
     text-align: center;
+}
+
+.forgetPassword-form{
+    border: 1px solid gray;
+    padding: 30px;
+    height: 44vh;
+    width: 40%;
+    border-radius: 9px;
+    background-color: white;
 }
