@@ -42,19 +42,22 @@ function Login() {
           <Form.Item
             label="Email"
             name="email"
-            required
-            rules={[{ required: true }]}
+            // required
+            // rules={[{ required: true }]}
           >
             <Input type="email" required />
           </Form.Item>
           <Form.Item
             label="Password"
             name="password"
-            required
-            rules={[{ required: true }]}
+            // required
+            // rules={[{ required: true }]}
           >
             <Input type="password" required />
           </Form.Item>
+          <Link to={"/forgetPassword"} className="ml-10">
+            Forgot Password?
+          </Link>
           <button
             className="btn btn-primary"
             style={{ width: "280px" }}
@@ -63,7 +66,11 @@ function Login() {
             Login
           </button>
           <div>
-            <Link to={"/signup"} className="p-4" >
+            <Link
+              to={"/signup"}
+              className="p-4"
+              style={{ lineHeight: "3.4em" }}
+            >
               Not registered? Create an account
             </Link>
           </div>

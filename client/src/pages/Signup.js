@@ -36,7 +36,7 @@ function Signup() {
           onFinish={onfinishHandler}
           className="register-form"
         >
-          <h1 className="title">Signup Form</h1>
+          <h1 className="title">Signup</h1>
           <Form.Item
             label="Name"
             name="name"
@@ -77,7 +77,11 @@ function Signup() {
             Signup
           </button>
           <div>
-            <Link to={"/login"} className="p-5">
+            <Link
+              to={"/login"}
+              className="p-4"
+              style={{ lineHeight: "3.4em" }}
+            >
               Already registered? Sign In
             </Link>
           </div>
