@@ -6,7 +6,7 @@ const userForgetPassword = async (data) => {
     service: "gmail", // If you're using Gmail
     auth: {
       user: "aakash19@navgurukul.org", // Your email address
-      pass: "verma1998", // Your password or app-specific password
+      pass: "", // Your password or app-specific password
     },
   });
 
