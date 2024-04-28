@@ -1,6 +1,4 @@
 const Doctor = require("../models/doctor");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
 const helper = require("../utils/helper");
 const User = require("../models/user");
 const doctorRegister = async (req, res) => {
@@ -60,7 +58,7 @@ const notification = async (req, res) => {
     );
   }
 };
-const deleteNotification = async (req,res) => {
+const deleteNotification = async (req, res) => {
   try {
     const user = await User.findOne({ _id: req.user._id });
     user.notification = [];
@@ -77,8 +75,51 @@ const deleteNotification = async (req,res) => {
     );
   }
 };
+
+const getDocInfo = async (req, res) => {
+  try {
+    const doctor = await Doctor.findOne({ userId: req.body._id });
+    if (!doctor) {
+      return res.status(200).send({
+        success: false,
+        message: "Doctor not found",
+      });
+    }
+    return res.status(200).send({
+      success: true,
+      message: "Doctor data fetch Successfully..",
+      data: doctor,
+    });
+  } catch (err) {
+    return res.json(
+      helper.showInternalServerErrorResponse("Internal server error")
+    );
+  }
+};
+const updateDoctor = async (req, res) => {
+  try {
+    const doctor = await Doctor.findOneAndUpdate(
+      { userId: req.body.userId },
+      req.body,
+
+      { new: true }
+    );
+    return res.status(201).send({
+      success: true,
+      message: "Doctor data update Successfully..",
+      data: doctor,
+    });
+  } catch (err) {
+    console.log(err);
+    return res.json(
+      helper.showInternalServerErrorResponse("Internal server error")
+    );
+  }
+};
 module.exports = {
   doctorRegister,
   notification,
   deleteNotification,
+  getDocInfo,
+  updateDoctor,
 };

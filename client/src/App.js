@@ -51,7 +51,7 @@ function App() {
               }
             />
             <Route
-              path="/users"
+              path="/admin/users"
               element={
                 <ProtectedRoute>
                   {" "}
@@ -60,7 +60,7 @@ function App() {
               }
             />
             <Route
-              path="/doctors"
+              path="/admin/doctors"
               element={
                 <ProtectedRoute>
                   {" "}
@@ -81,7 +81,6 @@ function App() {
               path="/doctor/profile/:id"
               element={
                 <ProtectedRoute>
-                  {" "}
                   <Profile />
                 </ProtectedRoute>
               }

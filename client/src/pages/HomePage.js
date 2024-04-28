@@ -24,6 +24,7 @@ const HomePage = () => {
   //login user data
   useEffect(() => {
     getUser();
+    // eslint-disable-next-line
   }, []);
   return (
     <Layout>

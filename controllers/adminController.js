@@ -3,7 +3,7 @@ const helper = require("../utils/helper");
 const User = require("../models/user");
 const getAllUsers = async (req, res) => {
   try {
-    let users = await User.find({ isAdmin: false });
+    let users = await User.find();
     if (!users) {
       return res.status(200).json({
         success: false,
