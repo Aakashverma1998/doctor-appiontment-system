@@ -1,17 +1,27 @@
 import React, { useEffect, useState } from "react";
 import Layout from "../../components/Layout";
-import { Col, Form, Input, Row, message } from "antd";
+import { Col, Form, Input, Row, TimePicker, message } from "antd";
 import axios from "axios";
+import moment from "moment";
 import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function Profile() {
   const [doctor, setDoctor] = useState();
+  const navigate = useNavigate();
   const { id } = useParams();
   const handleFinish = async (values) => {
     try {
       const res = await axios.post(
         "/api/v1/doctor/updateDoctor",
-        { ...values, userId: id },
+        {
+          ...values,
+          userId: id,
+          timings: [
+            moment(values.timings[0]).format("HH:mm"),
+            moment(values.timings[1]).format("HH:mm"),
+          ],
+        },
 
         {
           headers: {
@@ -21,6 +31,8 @@ function Profile() {
       );
       if (res.data.success) {
         setDoctor(res.data.data);
+        message.success(res.data.message);
+        navigate("/");
       }
     } catch (err) {
       message.error("Something went worng.!");
@@ -46,6 +58,7 @@ function Profile() {
   };
   useEffect(() => {
     doctorData();
+    // eslint-disable-next-line
   }, []);
   return (
     <Layout>
@@ -55,7 +68,13 @@ function Profile() {
           layout="vertical"
           onFinish={handleFinish}
           className="m-2"
-          initialValues={doctor}
+          initialValues={{
+            ...doctor,
+            timings: [
+              moment(doctor.timings[0], "HH:mm"),
+              moment(doctor.timings[1], "HH:mm"),
+            ],
+          }}
         >
           <h6 className="text-dark">Personal Details:</h6>
           <Row gutter={20}>
@@ -152,7 +171,7 @@ function Profile() {
                 <Input type="text" placeholder="Enter feesPerCunsaltation" />
               </Form.Item>
             </Col>
-            {/* <Col xs={24} md={24} lg={8}>
+            <Col xs={24} md={24} lg={8}>
               <Form.Item
                 label="Timings"
                 name="timings"
@@ -161,11 +180,11 @@ function Profile() {
               >
                 <TimePicker.RangePicker format="HH:MM" />
               </Form.Item>
-            </Col> */}
+            </Col>
           </Row>
           <div className="d-flex justify-content-center">
             <button className="btn btn-primary" type="submit">
-              Submit
+              Update
             </button>
           </div>
         </Form>

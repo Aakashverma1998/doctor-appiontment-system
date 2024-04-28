@@ -18,7 +18,7 @@ function ResetPassword() {
       });
       dispatch(hideLoading());
       if (res.data.success) {
-        message.success("ResetPassword has been done.");
+        message.success("ResetPassword has been change.");
         navigate("/login");
       } else {
         dispatch(hideLoading());

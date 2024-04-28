@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "axios";
 import Layout from "../components/Layout";
+import moment from "moment";
 import { useSelector, useDispatch } from "react-redux";
 import { hideLoading, showLoading } from "../redux/features/alertSlice";
 import { Col, Form, Input, Row, TimePicker, message } from "antd";
@@ -15,7 +16,14 @@ function ApplyDoctor() {
       dispatch(showLoading());
       const res = await axios.post(
         "/api/v1/doctor/doctorRegister",
-        { ...values, userId: user._id },
+        {
+          ...values,
+          userId: user._id,
+          timings: [
+            moment(values.timings[0]).format("HH:mm"),
+            moment(values.timings[1]).format("HH:mm"),
+          ],
+        },
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
