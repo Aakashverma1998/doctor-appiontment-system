@@ -1,24 +1,24 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Layout from "../components/Layout";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
+import { Row } from "antd";
+import DoctorList from "../components/DoctorList";
 const HomePage = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
+  const [doctors, setDoctors] = useState([]);
   const getUser = async () => {
     try {
-      await axios.post(
-        "/api/v1/user/getUser",
-        {},
-        {
-          headers: {
-            Authorization: "Bearer " + localStorage.getItem("token"),
-          },
-        }
-      );
+      const res = await axios.get("/api/v1/user/allDoctors", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      if (res.data.success) {
+        setDoctors(res.data.data);
+      }
     } catch (error) {
       console.log(error);
-      localStorage.removeItem("token");
-      navigate("/login");
     }
   };
   //login user data
@@ -28,7 +28,10 @@ const HomePage = () => {
   }, []);
   return (
     <Layout>
-      <h1>HomePage</h1>
+      <h1 className="p-2 text-center">All Doctors List</h1>
+      <Row>
+        {doctors && doctors.map((doctor) => <DoctorList doctor={doctor} />)}
+      </Row>
     </Layout>
   );
 };

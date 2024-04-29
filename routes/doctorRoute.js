@@ -5,6 +5,7 @@ const {
   deleteNotification,
   getDocInfo,
   updateDoctor,
+  getDoctorById
 } = require("../controllers/doctorController");
 const auth = require("../middleware/auth");
 
@@ -17,5 +18,7 @@ router.post("/delete-all-notification", auth, deleteNotification);
 router.post("/get-doc-info", auth, getDocInfo);
 
 router.post("/updateDoctor", auth, updateDoctor);
+
+router.post("/getDoctorById", auth, getDoctorById);
 
 module.exports = router;

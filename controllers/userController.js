@@ -1,4 +1,5 @@
 const User = require("../models/user");
+const Doctor = require("../models/doctor");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const helper = require("../utils/helper");
@@ -144,10 +145,26 @@ const resetPassword = async (req, res) => {
   }
 };
 
+const allDoctor = async (req, res) => {
+  try {
+    const doctor = await Doctor.find({ status: "approved" });
+    return res.status(200).send({
+      success: true,
+      message: "Doctor data fetch Successfully.",
+      data: doctor,
+    });
+  } catch (err) {
+    return res.json(
+      helper.showInternalServerErrorResponse("Internal server error")
+    );
+  }
+};
+
 module.exports = {
   userRegister,
   login,
   getUser,
   forgetPassword,
   resetPassword,
+  allDoctor,
 };

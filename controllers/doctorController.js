@@ -117,10 +117,26 @@ const updateDoctor = async (req, res) => {
     );
   }
 };
+const getDoctorById = async()=>{
+  try{
+    const doctor = await Doctor.findOne({_id:req.body.doctorId})
+    return res.status(200).send({
+      success: true,
+      message : "Doctor data fetch successfully",
+      data : doctor
+    })
+  }catch(err){
+    console.log(err);
+    return res.json(
+      helper.showInternalServerErrorResponse("Internal server error")
+    );
+  }
+}
 module.exports = {
   doctorRegister,
   notification,
   deleteNotification,
   getDocInfo,
   updateDoctor,
+  getDoctorById
 };

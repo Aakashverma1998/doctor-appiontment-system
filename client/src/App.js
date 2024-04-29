@@ -13,6 +13,7 @@ import Doctor from "./pages/admin/Doctor";
 import Profile from "./pages/doctor/Profile";
 import ForgetPaasword from "./pages/ForgetPaasword";
 import ResetPassword from "./pages/ResetPassword";
+import Booking from "./pages/Booking";
 
 function App() {
   const { loading } = useSelector((state) => state.alert);
@@ -95,11 +96,11 @@ function App() {
               }
             />
             <Route
-              path="/appointments"
+              path="/doctor/book-appointment/:id"
               element={
                 <ProtectedRoute>
                   {" "}
-                  <HomePage />
+                  <Booking />
                 </ProtectedRoute>
               }
             />
