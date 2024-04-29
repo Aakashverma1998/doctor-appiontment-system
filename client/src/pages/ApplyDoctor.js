@@ -13,6 +13,7 @@ function ApplyDoctor() {
   const navigate = useNavigate();
   const handleFinish = async (values) => {
     try {
+      let { ...time } = moment(values.timings);
       dispatch(showLoading());
       const res = await axios.post(
         "/api/v1/doctor/doctorRegister",
@@ -20,8 +21,8 @@ function ApplyDoctor() {
           ...values,
           userId: user._id,
           timings: [
-            moment(values.timings[0]).format("HH:mm"),
-            moment(values.timings[1]).format("HH:mm"),
+            moment(time._i[0].$d).format("HH:mm"),
+            moment(time._i[1].$d).format("HH:mm"),
           ],
         },
         {
@@ -149,7 +150,7 @@ function ApplyDoctor() {
               required
               rules={[{ required: true }]}
             >
-              <TimePicker.RangePicker format="HH:MM" />
+              <TimePicker.RangePicker format="HH:mm" />
             </Form.Item>
           </Col>
         </Row>

@@ -32,6 +32,7 @@ const doctorRegister = async (req, res) => {
       data: response,
     });
   } catch (err) {
+    console.log(err);
     return res.json(
       helper.showInternalServerErrorResponse("Internal server error")
     );

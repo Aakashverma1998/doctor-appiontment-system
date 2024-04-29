@@ -178,7 +178,7 @@ function Profile() {
                 required
                 rules={[{ required: true }]}
               >
-                <TimePicker.RangePicker format="HH:MM" />
+                <TimePicker.RangePicker format="HH:mm" />
               </Form.Item>
             </Col>
           </Row>
