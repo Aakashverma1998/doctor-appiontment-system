@@ -2,6 +2,7 @@ const User = require("../models/user");
 const Doctor = require("../models/doctor");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const Appointment = require("../models/appointment");
 const helper = require("../utils/helper");
 const { userForgetPassword } = require("../middleware/mail");
 const userRegister = async (req, res) => {
@@ -160,6 +161,28 @@ const allDoctor = async (req, res) => {
   }
 };
 
+const bookAppointment = async (req, res) => {
+  try {
+    const appointment = new Appointment({ ...req.body });
+    await appointment.save();
+    const user = await User.findOne({ _id: req.body.doctorInfo.userId });
+    user.notification.push({
+      type: "new-appointment-request",
+      message: `A new appointment request from ${req.body.userInfo.name}`,
+      onClickPath: "user/appointments",
+    });
+    await user.save();
+    return res.status(201).send({
+      success: true,
+      message: "Appointment book Successfully",
+    });
+  } catch (err) {
+    console.log(err);
+    return res.json(
+      helper.showInternalServerErrorResponse("Internal server error")
+    );
+  }
+};
 module.exports = {
   userRegister,
   login,
@@ -167,4 +190,5 @@ module.exports = {
   forgetPassword,
   resetPassword,
   allDoctor,
+  bookAppointment,
 };
