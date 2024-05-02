@@ -14,6 +14,7 @@ import Profile from "./pages/doctor/Profile";
 import ForgetPaasword from "./pages/ForgetPaasword";
 import ResetPassword from "./pages/ResetPassword";
 import Booking from "./pages/Booking";
+import Appointments from "./pages/Appointments";
 
 function App() {
   const { loading } = useSelector((state) => state.alert);
@@ -101,6 +102,15 @@ function App() {
                 <ProtectedRoute>
                   {" "}
                   <Booking />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/appointments"
+              element={
+                <ProtectedRoute>
+                  {" "}
+                  <Appointments />
                 </ProtectedRoute>
               }
             />

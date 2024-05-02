@@ -5,7 +5,7 @@ const appointmentSchema = new mongoose.Schema(
     doctorId: { type: String },
     doctorInfo: { type: String },
     userInfo: { type: String },
-    data: { type: String },
+    date: { type: String },
     time: { type: String },
     status: {
       type: String,

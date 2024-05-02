@@ -3,6 +3,7 @@ const Doctor = require("../models/doctor");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const Appointment = require("../models/appointment");
+const moment = require("moment");
 const helper = require("../utils/helper");
 const { userForgetPassword } = require("../middleware/mail");
 const userRegister = async (req, res) => {
@@ -163,6 +164,8 @@ const allDoctor = async (req, res) => {
 
 const bookAppointment = async (req, res) => {
   try {
+    req.body.date = moment(req.body.date, "DD-MM-YYYY").toISOString();
+    req.body.time = moment(req.body.time, "HH:mm").toISOString();
     const appointment = new Appointment({ ...req.body });
     await appointment.save();
     const user = await User.findOne({ _id: req.body.doctorInfo.userId });
@@ -183,6 +186,55 @@ const bookAppointment = async (req, res) => {
     );
   }
 };
+
+const bookingAvailblity = async (req, res) => {
+  try {
+    const date = moment(req.body.date, "DD-MM--YYYY").toISOString();
+    const fromTime = moment(req.body.time, "HH:mm")
+      .subtract(1, "hours")
+      .toISOString();
+    const toTime = moment(req.body.time, "HH:mm").add(1, "hours").toISOString();
+    const doctorId = req.body.doctorId;
+    const appointment = await Appointment.find({
+      doctorId,
+      date,
+      time: {
+        $gte: fromTime,
+        $lte: toTime,
+      },
+    });
+    if (appointment.length > 0) {
+      return res.status(200).send({
+        success: true,
+        message: "Appointments not Availibale this time",
+      });
+    } else {
+      return res.status(200).send({
+        success: true,
+        message: "Appointments Availibale ",
+      });
+    }
+  } catch (err) {
+    return res.json(
+      helper.showInternalServerErrorResponse("Internal server error")
+    );
+  }
+};
+const userAppointments = async (req, res) => {
+  try {
+    const appointment = await Appointment.find();
+    return res.status(200).send({
+      success: true,
+      message: "All Appointments fetch Successfully",
+      data: appointment,
+    });
+  } catch (err) {
+    return res.json(
+      helper.showInternalServerErrorResponse("Internal server error")
+    );
+  }
+};
+
 module.exports = {
   userRegister,
   login,
@@ -191,4 +243,6 @@ module.exports = {
   resetPassword,
   allDoctor,
   bookAppointment,
+  bookingAvailblity,
+  userAppointments,
 };

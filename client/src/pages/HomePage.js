@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Layout from "../components/Layout";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Row } from "antd";
 import DoctorList from "../components/DoctorList";
 const HomePage = () => {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const [doctors, setDoctors] = useState([]);
   const getUser = async () => {
     try {
@@ -18,6 +18,8 @@ const HomePage = () => {
         setDoctors(res.data.data);
       }
     } catch (error) {
+      localStorage.removeItem("token");
+      navigate("/login");
       console.log(error);
     }
   };

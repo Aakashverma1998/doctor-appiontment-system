@@ -7,6 +7,8 @@ const {
   resetPassword,
   allDoctor,
   bookAppointment,
+  bookingAvailblity,
+  userAppointments,
 } = require("../controllers/userController");
 const auth = require("../middleware/auth");
 
@@ -18,5 +20,9 @@ router.post("/resetPassword/:id", resetPassword);
 router.get("/allDoctors", auth, allDoctor);
 
 router.post("/book-appointment", auth, bookAppointment);
+
+router.post("/booking-availbility", auth, bookingAvailblity);
+
+router.get("/user-appointments", auth, userAppointments);
 
 module.exports = router;

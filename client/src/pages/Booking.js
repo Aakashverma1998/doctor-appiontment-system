@@ -12,7 +12,7 @@ function Booking() {
   const [doctors, setDoctors] = useState();
   const [date, setDate] = useState();
   const [time, setTime] = useState();
-  // const [availablity, setAvailablity] = useState();
+  const [availablity, setAvailablity] = useState(false);
   const getUser = async () => {
     try {
       const res = await axios.post(
@@ -33,6 +33,9 @@ function Booking() {
   };
   const handleBooking = async () => {
     try {
+      if (!date && !time) {
+        return alert("Date & time is required");
+      }
       const res = await axios.post(
         "/api/v1/user/book-appointment",
         {
@@ -51,6 +54,34 @@ function Booking() {
       );
       if (res.data.success) {
         message.success(res.data.message);
+      }
+    } catch (err) {
+      message.error("something went worng.");
+    }
+  };
+  const handleAvailiblity = async () => {
+    try {
+      if (!date && !time) {
+        return alert("Date & time is required");
+      }
+      const res = await axios.post(
+        "/api/v1/user/booking-availbility",
+        {
+          doctorId: id,
+          date: date,
+          time: time,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      if (res.data.success) {
+        setAvailablity(true);
+        message.success(res.data.message);
+      } else {
+        message.error(res.data.message);
       }
     } catch (err) {
       message.error("something went worng.");
@@ -78,16 +109,21 @@ function Booking() {
               <DatePicker
                 className="m-2"
                 format="DD-MM-YYYY"
-                onChange={(value) =>
-                  setDate(moment(value).format("DD-MM-YYYY"))
-                }
+                onChange={(value) => {
+                  setDate(moment(value).format("DD-MM-YYYY"));
+                }}
               />
               <TimePicker
                 className="m-2"
                 format="HH:mm"
-                onChange={(values) => setTime(moment(values).format("HH:mm"))}
+                onChange={(value) => {
+                  setTime(moment(value).format("HH:mm"));
+                }}
               />
-              <button className="btn btn-primary mt-2">
+              <button
+                className="btn btn-primary mt-2"
+                onClick={handleAvailiblity}
+              >
                 Check Availablity
               </button>
               <button className="btn btn-dark mt-2" onClick={handleBooking}>
