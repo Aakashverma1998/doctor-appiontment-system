@@ -149,6 +149,31 @@ const doctorAppointments = async (req, res) => {
     );
   }
 };
+
+const updateStatus = async (req, res) => {
+  try {
+    const { appointmentId, status } = req.body;
+    const appointments = await Appointment.findByIdAndUpdate(appointmentId, {
+      status,
+    });
+    const user = await User.findOne({ _id: appointments.userId });
+    user.notification.push({
+      type: "status-updated",
+      message: `your appointment has been updated ${status}`,
+      onClickPath: "/doctor-appointments",
+    });
+    await user.save();
+    return res.status(200).send({
+      success: true,
+      message: "Appointments status update successfully",
+    });
+  } catch (err) {
+    console.log(err);
+    return res.json(
+      helper.showInternalServerErrorResponse("Internal server error")
+    );
+  }
+};
 module.exports = {
   doctorRegister,
   notification,
@@ -157,4 +182,5 @@ module.exports = {
   updateDoctor,
   getDoctorById,
   doctorAppointments,
+  updateStatus,
 };

@@ -1,7 +1,7 @@
 import Layout from "../../components/Layout";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Table } from "antd";
+import { Table, message } from "antd";
 import moment from "moment";
 import { useSelector } from "react-redux";
 
@@ -26,7 +26,25 @@ function DoctorAppointments() {
       console.log(err);
     }
   };
-  const handleStatus = async () => {};
+  const handleStatus = async (record, status) => {
+    try {
+      const res = await axios.post(
+        "/api/v1/doctor/update-status",
+        { appointmentId: record._id, status },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      if (res.data.success) {
+        message.success(res.data.message);
+        getAppointments();
+      }
+    } catch (err) {
+      message.error("something went worng");
+    }
+  };
   useEffect(() => {
     getAppointments();
   }, []);

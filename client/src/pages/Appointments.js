@@ -37,12 +37,12 @@ function Appointments() {
     {
       title: "Date & Time",
       dataIndex: "time",
-      render: (text, record) => {
+      render: (text, record) => (
         <span>
-          {moment(record.date).format("DD-MM-YYYY")}
+          {moment(record.date).format("DD-MM-YYYY")} &nbsp;
           {moment(record.time).format("HH:mm")}
-        </span>;
-      },
+        </span>
+      ),
     },
     {
       title: "Status",
