@@ -26,6 +26,7 @@ function DoctorAppointments() {
       console.log(err);
     }
   };
+  const handleStatus = async () => {};
   useEffect(() => {
     getAppointments();
   }, []);
@@ -37,16 +38,40 @@ function DoctorAppointments() {
     {
       title: "Date & Time",
       dataIndex: "time",
-      render: (text, record) => {
+      render: (text, record) => (
         <span>
-          {moment(record.date).format("DD-MM-YYYY")}
+          {moment(record.date).format("DD-MM-YYYY")} &nbsp;
           {moment(record.time).format("HH:mm")}
-        </span>;
-      },
+        </span>
+      ),
     },
     {
       title: "Status",
       dataIndex: "status",
+    },
+    {
+      title: "Actions",
+      dataIndex: "actions",
+      render: (text, record) => (
+        <div className="d-flex">
+          {record.status === "pending" && (
+            <div className="d-flex">
+              <button
+                className="btn btn-success m-2"
+                onClick={() => handleStatus(record, "approved")}
+              >
+                Approved
+              </button>
+              <button
+                className="btn btn-danger m-2"
+                onClick={() => handleStatus(record, "reject")}
+              >
+                Reject
+              </button>
+            </div>
+          )}
+        </div>
+      ),
     },
   ];
   return (
