@@ -6,7 +6,7 @@ const {
   getDocInfo,
   updateDoctor,
   getDoctorById,
-  doctorAppointments
+  doctorAppointments,
 } = require("../controllers/doctorController");
 const auth = require("../middleware/auth");
 
@@ -22,6 +22,6 @@ router.post("/updateDoctor", auth, updateDoctor);
 
 router.post("/getDoctorById", auth, getDoctorById);
 
-router.get("/doctor-appointments", auth, doctorAppointments);
+router.post("/doctor-appointments", auth, doctorAppointments);
 
 module.exports = router;
