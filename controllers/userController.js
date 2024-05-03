@@ -222,7 +222,7 @@ const bookingAvailblity = async (req, res) => {
 };
 const userAppointments = async (req, res) => {
   try {
-    const appointment = await Appointment.find();
+    const appointment = await Appointment.find({ userId: req.body.userId });
     return res.status(200).send({
       success: true,
       message: "All Appointments fetch Successfully",

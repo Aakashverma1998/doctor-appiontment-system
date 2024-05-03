@@ -1,6 +1,7 @@
 const Doctor = require("../models/doctor");
 const helper = require("../utils/helper");
 const User = require("../models/user");
+const Appointment = require("../models/appointment");
 const doctorRegister = async (req, res) => {
   try {
     let emailMatch = await Doctor.findOne({
@@ -132,6 +133,22 @@ const getDoctorById = async (req, res) => {
     );
   }
 };
+const doctorAppointments = async (req, res) => {
+  try {
+    const doctor = await Doctor.findOne({ userId: req.body.userId });
+    const appointment = await Appointment.find({ doctorId: req.body.doctorId });
+    return res.status(200).send({
+      success: true,
+      message: "Doctor data fetch successfully",
+      data: appointment,
+    });
+  } catch (err) {
+    console.log(err);
+    return res.json(
+      helper.showInternalServerErrorResponse("Internal server error")
+    );
+  }
+};
 module.exports = {
   doctorRegister,
   notification,
@@ -139,4 +156,5 @@ module.exports = {
   getDocInfo,
   updateDoctor,
   getDoctorById,
+  doctorAppointments,
 };

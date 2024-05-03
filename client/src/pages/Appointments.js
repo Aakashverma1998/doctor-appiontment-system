@@ -3,16 +3,22 @@ import Layout from "../components/Layout";
 import axios from "axios";
 import { Table } from "antd";
 import moment from "moment";
+import { useSelector } from "react-redux";
 
 function Appointments() {
+  const { user } = useSelector((state) => state.user);
   const [list, setList] = useState([]);
   const getAppointments = async () => {
     try {
-      const res = await axios.get("/api/v1/user/user-appointments", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
+      const res = await axios.post(
+        "/api/v1/user/user-appointments",
+        { userId: user._id },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
       if (res.data.success) {
         setList(res.data.data);
       }
@@ -30,7 +36,7 @@ function Appointments() {
     },
     {
       title: "Date & Time",
-      dataIndex: "date",
+      dataIndex: "time",
       render: (text, record) => {
         <span>
           {moment(record.date).format("DD-MM-YYYY")}

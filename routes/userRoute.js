@@ -23,6 +23,6 @@ router.post("/book-appointment", auth, bookAppointment);
 
 router.post("/booking-availbility", auth, bookingAvailblity);
 
-router.get("/user-appointments", auth, userAppointments);
+router.post("/user-appointments", auth, userAppointments);
 
 module.exports = router;

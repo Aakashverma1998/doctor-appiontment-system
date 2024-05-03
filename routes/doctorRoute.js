@@ -5,7 +5,8 @@ const {
   deleteNotification,
   getDocInfo,
   updateDoctor,
-  getDoctorById
+  getDoctorById,
+  doctorAppointments
 } = require("../controllers/doctorController");
 const auth = require("../middleware/auth");
 
@@ -20,5 +21,7 @@ router.post("/get-doc-info", auth, getDocInfo);
 router.post("/updateDoctor", auth, updateDoctor);
 
 router.post("/getDoctorById", auth, getDoctorById);
+
+router.get("/doctor-appointments", auth, doctorAppointments);
 
 module.exports = router;
