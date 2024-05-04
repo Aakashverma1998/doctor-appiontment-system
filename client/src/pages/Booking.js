@@ -13,6 +13,8 @@ function Booking() {
   const [date, setDate] = useState();
   const [time, setTime] = useState();
   const [availablity, setAvailablity] = useState(false);
+  console.log("date..........................in booking..,,,,,", date);
+  console.log("time..........................in booking..,,,,,", time);
   const getUser = async () => {
     try {
       const res = await axios.post(
@@ -43,8 +45,8 @@ function Booking() {
           userId: user._id,
           doctorInfo: doctors,
           userInfo: user,
-          date: date,
-          time: time,
+          date,
+          time,
         },
         {
           headers: {
@@ -68,8 +70,8 @@ function Booking() {
         "/api/v1/user/booking-availbility",
         {
           doctorId: id,
-          date: date,
-          time: time,
+          date,
+          time,
         },
         {
           headers: {
@@ -109,16 +111,16 @@ function Booking() {
               <DatePicker
                 className="m-2"
                 format="DD-MM-YYYY"
-                onChange={(value) => {
-                  setDate(moment(value).format("DD-MM-YYYY"));
-                }}
+                onChange={({ ...value }) =>
+                  setDate(moment(value.$d).format("DD-MM-YYYY"))
+                }
               />
               <TimePicker
                 className="m-2"
                 format="HH:mm"
-                onChange={(value) => {
-                  setTime(moment(value).format("HH:mm"));
-                }}
+                onChange={({ ...value }) =>
+                  setTime(moment(value.$d).format("HH:mm"))
+                }
               />
               <button
                 className="btn btn-primary mt-2"

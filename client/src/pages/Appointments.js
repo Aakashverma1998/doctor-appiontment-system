@@ -12,7 +12,7 @@ function Appointments() {
     try {
       const res = await axios.post(
         "/api/v1/user/user-appointments",
-        { userId: user._id },
+        { userId: user?._id },
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,

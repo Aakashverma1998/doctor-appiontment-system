@@ -16,6 +16,7 @@ import ResetPassword from "./pages/ResetPassword";
 import Booking from "./pages/Booking";
 import Appointments from "./pages/Appointments";
 import DoctorAppointments from "./pages/doctor/DoctorAppointments";
+import UserProfile from "./pages/UserProfile";
 
 function App() {
   const { loading } = useSelector((state) => state.alert);
@@ -121,6 +122,15 @@ function App() {
                 <ProtectedRoute>
                   {" "}
                   <DoctorAppointments />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/user/profile"
+              element={
+                <ProtectedRoute>
+                  {" "}
+                  <UserProfile />
                 </ProtectedRoute>
               }
             />
