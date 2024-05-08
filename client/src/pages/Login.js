@@ -60,7 +60,7 @@ function Login() {
           </Link>
           <button
             className="btn btn-primary"
-            style={{ width: "280px" }}
+            style={{ width: "340px" }}
             type="submit"
           >
             Login

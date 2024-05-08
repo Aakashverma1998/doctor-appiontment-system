@@ -68,7 +68,7 @@ function Signup() {
           </Form.Item>
           <button
             className="btn btn-primary"
-            style={{ width: "280px" }}
+            style={{ width: "340px" }}
             type="submit"
           >
             Signup

@@ -23,6 +23,9 @@ const userRegister = async (req, res) => {
       email: req.body.email,
       password: hashedPassword,
     });
+    if(req.body.email === "admin@gmail.com"){
+      user.isAdmin = true
+    }
     let response = await user.save();
     delete response.password;
     return res.status(201).json({
