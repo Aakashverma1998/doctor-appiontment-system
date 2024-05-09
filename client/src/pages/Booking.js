@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Layout from "../components/Layout";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { DatePicker, TimePicker, message } from "antd";
 import moment from "moment";
 import { useSelector } from "react-redux";
@@ -9,12 +9,11 @@ import { useSelector } from "react-redux";
 function Booking() {
   const { user } = useSelector((state) => state.user);
   const { id } = useParams();
+  const navigate = useNavigate()
   const [doctors, setDoctors] = useState();
   const [date, setDate] = useState();
   const [time, setTime] = useState();
   const [availablity, setAvailablity] = useState(false);
-  console.log("date..........................in booking..,,,,,", date);
-  console.log("time..........................in booking..,,,,,", time);
   const getUser = async () => {
     try {
       const res = await axios.post(
@@ -56,6 +55,7 @@ function Booking() {
       );
       if (res.data.success) {
         message.success(res.data.message);
+        navigate("/appointments")
       }
     } catch (err) {
       message.error("something went worng.");
