@@ -54,6 +54,20 @@ function DoctorAppointments() {
       dataIndex: "_id",
     },
     {
+      title: "Patient Name",
+      dataIndex: "name",
+      render : (text, record)=>{
+        return <span>{record.userId.name}</span>
+      }
+    },
+    {
+      title: "Patient Phone",
+      dataIndex: "phone",
+      render : (text, record)=>{
+        return <span>{record.userId.phone}</span>
+      }
+    },
+    {
       title: "Date & Time",
       dataIndex: "time",
       render: (text, record) => (
@@ -94,7 +108,7 @@ function DoctorAppointments() {
   ];
   return (
     <Layout>
-      <h1 className="m-2 text-center">DoctorAppointments List</h1>
+      <h1 className="m-2 text-center">Appointments List</h1>
       <Table columns={columns} dataSource={list}></Table>
     </Layout>
   );

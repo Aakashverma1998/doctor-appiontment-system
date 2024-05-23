@@ -44,7 +44,7 @@ function ForgetPaasword() {
           </Form.Item>
           <button
             className="btn btn-primary"
-            style={{ width: "482px" }}
+            style={{ width: "620px" }}
             type="submit"
           >
             ResetPassword

@@ -42,16 +42,16 @@ function Login() {
           <Form.Item
             label="Email"
             name="email"
-            // required
-            // rules={[{ required: true }]}
+            required
+            rules={[{ required: true }]}
           >
             <Input type="email" required />
           </Form.Item>
           <Form.Item
             label="Password"
             name="password"
-            // required
-            // rules={[{ required: true }]}
+            required
+            rules={[{ required: true }]}
           >
             <Input type="password" required />
           </Form.Item>
@@ -60,7 +60,7 @@ function Login() {
           </Link>
           <button
             className="btn btn-primary"
-            style={{ width: "340px" }}
+            style={{ width: "280px" }}
             type="submit"
           >
             Login

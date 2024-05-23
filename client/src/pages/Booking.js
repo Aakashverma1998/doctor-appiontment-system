@@ -104,6 +104,10 @@ function Booking() {
               Dr. {doctors.firstName} {doctors.lastName}
             </h4>
             <h4>Fees: {doctors.feesPerCunsaltation}</h4>
+            <h4>Specialization: {doctors.specialization}</h4>
+            <h4>Experience: {doctors.experience}</h4>
+            <h4>Phone: {doctors.phone}</h4>
+            <h4>Website: {doctors.website}</h4>
             <h4>
               Timings: {doctors.timings[0]} - {doctors.timings[1]}
             </h4>

@@ -2,7 +2,8 @@ const mongoose = require("mongoose");
 const doctorSchema = new mongoose.Schema(
   {
     userId: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
     },
     firstName: { type: String },
     lastName: { type: String },
@@ -22,7 +23,7 @@ const doctorSchema = new mongoose.Schema(
       type: String,
     },
     experience: {
-      trype: String,
+      type: String,
     },
     status: {
       type: String,

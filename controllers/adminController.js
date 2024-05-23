@@ -24,7 +24,7 @@ const getAllUsers = async (req, res) => {
 
 const getAllDoctors = async (req, res) => {
   try {
-    let doctor = await Doctor.find({});
+    let doctor = await Doctor.find({}).populate({path:"userId", select:"name email phone isAdmin isDoctor createdAt"});
     if (!doctor) {
       return res.status(200).json({
         success: false,

@@ -22,6 +22,7 @@ const userRegister = async (req, res) => {
       name: req.body.name,
       email: req.body.email,
       password: hashedPassword,
+      phone : req.body.phone
     });
     if(req.body.email === "admin@gmail.com"){
       user.isAdmin = true
@@ -152,13 +153,14 @@ const resetPassword = async (req, res) => {
 
 const allDoctor = async (req, res) => {
   try {
-    const doctor = await Doctor.find({ status: "approved" });
+    const doctor = await Doctor.find({ status: "approved" }).populate({path:"userId", select:"name email isAdmin isDoctor createdAt"});
     return res.status(200).send({
       success: true,
       message: "Doctor data fetch Successfully.",
       data: doctor,
     });
   } catch (err) {
+  console.log(err);
     return res.json(
       helper.showInternalServerErrorResponse("Internal server error")
     );
@@ -225,7 +227,9 @@ const bookingAvailblity = async (req, res) => {
 };
 const userAppointments = async (req, res) => {
   try {
-    const appointment = await Appointment.find({ userId: req.body.userId });
+    const appointment = await Appointment.find({ userId: req.body.userId })
+    .populate({path:"userId", select:"name email isAdmin phone isDoctor createdAt"})
+    .populate({path:"doctorId", select:"specialization email firstName phone lastName createdAt"});
     return res.status(200).send({
       success: true,
       message: "All Appointments fetch Successfully",

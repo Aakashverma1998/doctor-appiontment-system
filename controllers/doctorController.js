@@ -136,7 +136,8 @@ const getDoctorById = async (req, res) => {
 const doctorAppointments = async (req, res) => {
   try {
     const doctor = await Doctor.findOne({ userId: req.body.userId });
-    const appointment = await Appointment.find({ doctorId: doctor._id });
+    const appointment = await Appointment.find({ doctorId: doctor._id })
+    .populate({path:"userId", select:"name email isAdmin phone isDoctor createdAt"});
     return res.status(200).send({
       success: true,
       message: "Doctor data fetch successfully",

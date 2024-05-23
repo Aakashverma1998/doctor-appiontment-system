@@ -35,6 +35,27 @@ function Appointments() {
       dataIndex: "_id",
     },
     {
+      title: "Name",
+      dataIndex: "name",
+      render : (text, record)=>{
+        return<span>{record.userId.name}</span>
+      }
+    },
+    {
+      title: "Email",
+      dataIndex: "email",
+      render : (text, record)=>{
+        return <span>{record.userId.email}</span>
+      }
+    },
+    {
+      title: "Phone",
+      dataIndex: "phone",
+      render : (text, record)=>{
+        return <span>{record.userId.phone}</span>
+      }
+    },
+    {
       title: "Date & Time",
       dataIndex: "time",
       render: (text, record) => (
@@ -43,6 +64,13 @@ function Appointments() {
           {moment(record.time).format("HH:mm")}
         </span>
       ),
+    },
+    {
+      title: "Department",
+      dataIndex: "specialization",
+      render : (text,record)=>{
+        return <span>{record.doctorId.specialization}</span>
+      }
     },
     {
       title: "Status",
