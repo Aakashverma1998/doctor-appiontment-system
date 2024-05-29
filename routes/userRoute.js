@@ -9,6 +9,7 @@ const {
   bookAppointment,
   bookingAvailblity,
   userAppointments,
+  verifyMail
 } = require("../controllers/userController");
 const auth = require("../middleware/auth");
 
@@ -24,5 +25,7 @@ router.post("/book-appointment", auth, bookAppointment);
 router.post("/booking-availbility", auth, bookingAvailblity);
 
 router.post("/user-appointments", auth, userAppointments);
+
+router.get("/userVerifyMail/:id", verifyMail);
 
 module.exports = router;

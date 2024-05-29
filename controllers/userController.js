@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken");
 const Appointment = require("../models/appointment");
 const moment = require("moment");
 const helper = require("../utils/helper");
-const { userForgetPassword } = require("../middleware/mail");
+const { userForgetPassword, userVerifyMail } = require("../middleware/mail");
 const userRegister = async (req, res) => {
   try {
     let emailMatch = await User.findOne({
@@ -20,11 +20,12 @@ const userRegister = async (req, res) => {
     }
     const user = User({
       name: req.body.name,
-      email: req.body.email,
+      email: req.body.email.toLowerCase(),
       password: hashedPassword,
-      phone : req.body.phone
+      phone: req.body.phone
     });
-    if(req.body.email === "admin@gmail.com"){
+    const email = req.body.email.toLowerCase()
+    if (email === "admin@gmail.com") {
       user.isAdmin = true
     }
     let response = await user.save();
@@ -35,6 +36,7 @@ const userRegister = async (req, res) => {
       data: response,
     });
   } catch (err) {
+    console.log(err);
     return res.json(
       helper.showInternalServerErrorResponse("Internal server error")
     );
@@ -44,7 +46,7 @@ const userRegister = async (req, res) => {
 const login = async (req, res) => {
   try {
     let user = await User.findOne({
-      email: req.body.email,
+      email: req.body.email
     });
     if (user) {
       let passwordMatch = await bcrypt.compare(
@@ -63,6 +65,11 @@ const login = async (req, res) => {
         );
         user.tokens.push({ token });
         await user.save();
+        await userVerifyMail(user)
+        let isEmailVerify = await User.findOne({email: req.body.email, isEmailVerified: true })
+        if (!isEmailVerify) {
+          return res.status(200).json({ success: false, message: "Please verify your mail before Login.!" })
+        }
         res.status(201).json({
           success: true,
           message: "Login Success",
@@ -153,14 +160,14 @@ const resetPassword = async (req, res) => {
 
 const allDoctor = async (req, res) => {
   try {
-    const doctor = await Doctor.find({ status: "approved" }).populate({path:"userId", select:"name email isAdmin isDoctor createdAt"});
+    const doctor = await Doctor.find({ status: "approved" }).populate({ path: "userId", select: "name email isAdmin isDoctor createdAt" });
     return res.status(200).send({
       success: true,
       message: "Doctor data fetch Successfully.",
       data: doctor,
     });
   } catch (err) {
-  console.log(err);
+    console.log(err);
     return res.json(
       helper.showInternalServerErrorResponse("Internal server error")
     );
@@ -228,8 +235,8 @@ const bookingAvailblity = async (req, res) => {
 const userAppointments = async (req, res) => {
   try {
     const appointment = await Appointment.find({ userId: req.body.userId })
-    .populate({path:"userId", select:"name email isAdmin phone isDoctor createdAt"})
-    .populate({path:"doctorId", select:"specialization email firstName phone lastName createdAt"});
+      .populate({ path: "userId", select: "name email isAdmin phone isDoctor createdAt" })
+      .populate({ path: "doctorId", select: "specialization email firstName phone lastName createdAt" });
     return res.status(200).send({
       success: true,
       message: "All Appointments fetch Successfully",
@@ -242,6 +249,21 @@ const userAppointments = async (req, res) => {
   }
 };
 
+const verifyMail = async (req, res) => {
+  try {
+    const user = await User.findByIdAndUpdate(req.params.id, { isEmailVerified: true })
+    return res.status(200).send({
+      success: true,
+      message: "Your email verified Successfully",
+      data: user,
+    });
+  } catch (err) {
+    console.log(err);
+    return res.json(
+      helper.showInternalServerErrorResponse("Internal server error")
+    );
+  }
+}
 module.exports = {
   userRegister,
   login,
@@ -252,4 +274,5 @@ module.exports = {
   bookAppointment,
   bookingAvailblity,
   userAppointments,
+  verifyMail
 };

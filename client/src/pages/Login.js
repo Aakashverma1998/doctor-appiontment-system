@@ -18,10 +18,10 @@ function Login() {
       window.location.reload();
       dispatch(hideLoading());
       if (res.data.success) {
-        message.success("User Login Successfully.");
         localStorage.setItem("token", res.data.token);
         navigate("/");
-      } else {
+        return message.success("User Login Successfully.");
+      }else {
         dispatch(hideLoading());
         message.error(res.data.message);
       }

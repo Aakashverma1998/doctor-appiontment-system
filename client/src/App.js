@@ -17,6 +17,7 @@ import Booking from "./pages/Booking";
 import Appointments from "./pages/Appointments";
 import DoctorAppointments from "./pages/doctor/DoctorAppointments";
 import UserProfile from "./pages/UserProfile";
+import VerifyMail from "./pages/VerifyMail";
 
 function App() {
   const { loading } = useSelector((state) => state.alert);
@@ -147,6 +148,14 @@ function App() {
               element={
                 <PublicRoute>
                   <Login />
+                </PublicRoute>
+              }
+            />
+            <Route
+              path="/api/v1/user/verifyMail/:id"
+              element={
+                <PublicRoute>
+                  <VerifyMail/>
                 </PublicRoute>
               }
             />
