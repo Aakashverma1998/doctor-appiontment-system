@@ -15,9 +15,9 @@ function Login() {
         "/api/v1/user/login",
         values
       );
-      window.location.reload();
       dispatch(hideLoading());
       if (res.data.success) {
+        window.location.reload();
         localStorage.setItem("token", res.data.token);
         navigate("/");
         return message.success("User Login Successfully.");
