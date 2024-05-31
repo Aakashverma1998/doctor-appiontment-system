@@ -9,7 +9,7 @@ const { userForgetPassword, userVerifyMail } = require("../middleware/mail");
 const userRegister = async (req, res) => {
   try {
     let emailMatch = await User.findOne({
-      email: req.body.email,
+      email: req.body.email.toLowerCase(),
     });
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
     if (emailMatch) {
