@@ -45,8 +45,9 @@ const userRegister = async (req, res) => {
 
 const login = async (req, res) => {
   try {
+    const email = req.body.email.toLowerCase()
     let user = await User.findOne({
-      email: req.body.email
+      email
     });
     if (user) {
       let passwordMatch = await bcrypt.compare(
@@ -66,7 +67,7 @@ const login = async (req, res) => {
         user.tokens.push({ token });
         await user.save();
         await userVerifyMail(user)
-        let isEmailVerify = await User.findOne({email: req.body.email, isEmailVerified: true })
+        let isEmailVerify = await User.findOne({email, isEmailVerified: true })
         if (!isEmailVerify) {
           return res.status(200).json({ success: false, message: "Please verify your mail before Login.!" })
         }
